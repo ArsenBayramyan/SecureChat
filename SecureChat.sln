@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChat", "SecureChat\SecureChat.csproj", "{DB0C7B7F-50C1-4541-92EC-282F346E425B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChat.BLL", "SecureChat.BLL\SecureChat.BLL.csproj", "{A560E6D7-46D0-4C97-9002-F563A4811A31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChat.DAL", "SecureChat.DAL\SecureChat.DAL.csproj", "{325B7857-66CA-4915-BF8E-1F8D5BC4E516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChat.PL", "SecureChat.PL\SecureChat.PL.csproj", "{AE14C188-926D-4222-B244-2DA65E61657E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB0C7B7F-50C1-4541-92EC-282F346E425B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB0C7B7F-50C1-4541-92EC-282F346E425B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB0C7B7F-50C1-4541-92EC-282F346E425B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB0C7B7F-50C1-4541-92EC-282F346E425B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A560E6D7-46D0-4C97-9002-F563A4811A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A560E6D7-46D0-4C97-9002-F563A4811A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A560E6D7-46D0-4C97-9002-F563A4811A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A560E6D7-46D0-4C97-9002-F563A4811A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325B7857-66CA-4915-BF8E-1F8D5BC4E516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325B7857-66CA-4915-BF8E-1F8D5BC4E516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325B7857-66CA-4915-BF8E-1F8D5BC4E516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325B7857-66CA-4915-BF8E-1F8D5BC4E516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE14C188-926D-4222-B244-2DA65E61657E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE14C188-926D-4222-B244-2DA65E61657E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE14C188-926D-4222-B244-2DA65E61657E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE14C188-926D-4222-B244-2DA65E61657E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
