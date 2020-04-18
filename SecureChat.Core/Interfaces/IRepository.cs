@@ -2,7 +2,7 @@
 
 namespace SecureChat.Core.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> 
     {
         IEnumerable<T> List();
         bool Save(T entity);

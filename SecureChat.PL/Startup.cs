@@ -30,10 +30,19 @@ namespace SecureChat.PL
         public void ConfigureServices(IServiceCollection services)
         {
             var identityConString = Configuration["Data:SecureChatIdentity:ConnectionString"];
-            var messagesConString = Configuration["Data:SecureChatIdentity:ConnectionString"];
+            var messagesConString = Configuration["Data:SecureChatMessages:ConnectionString"];
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(identityConString));
             services.AddDbContext<MessagesDBContext>(options => options.UseSqlServer(messagesConString));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(opts=>
+            {
+                
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = true;
+                opts.Password.RequireLowercase = true;
+                opts.Password.RequireUppercase = true;
+                opts.Password.RequireDigit = true;
+            })
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             services.AddMvc();
         }

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Home\**" />
+    <Compile Remove="Views\Shared\**" />
+    <Content Remove="Views\Home\**" />
+    <Content Remove="Views\Shared\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Views\Shared\**" />
+    <None Remove="Views\Home\**" />
+    <None Remove="Views\Shared\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
@@ -16,11 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Home\" />
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\SecureChat.BLL\SecureChat.BLL.csproj" />
     <ProjectReference Include="..\SecureChat.DAL\SecureChat.DAL.csproj" />
   </ItemGroup>
 

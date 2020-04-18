@@ -1,49 +1,48 @@
 ﻿using SecureChat.Core.Interfaces;
 using SecureChat.DAL.Contexts;
-using System;
+using SecureChat.DAL.Models;
 using System.Collections.Generic;
 
 namespace SecureChat.BLL.Repository
 {
-    class MessageRepository : IRepository<IMessage>
+    public class MessageRepository : IRepository<Message>
     {
-        MessagesDBContext _context;
+        private MessagesDBContext _context;
 
         public MessageRepository(MessagesDBContext context)
         {
             this._context = context;
         }
-
-        public bool Delete(IMessage entity)
+        public bool Delete(Message entity)
         {
             this._context.Messages.Remove(entity);
             this._context.SaveChanges();
             return false;
         }
-
         public bool DeleteById(int id)
         {
-            throw new NotImplementedException();
+            Message message = this._context.Find<Message>(id);
+            this._context.Messages.Remove(message);
+            return false;
         }
-
-        public IMessage GetByID(int id)
+        public Message GetByID(int id)
         {
-            throw new NotImplementedException();
+            return this._context.Find<Message>(id);
         }
-
-        public IEnumerable<IMessage> List()
+        public IEnumerable<Message> List()
         {
-            throw new NotImplementedException();
+            return this._context.Messages;
         }
-
-        public bool Save(IMessage entity)
+        public bool Save(Message entity)
         {
-            throw new NotImplementedException();
+            this._context.Messages.Add(entity);
+            _context.SaveChanges();
+            return true;
         }
-
-        public bool Update(IMessage entity)
+        public bool Update(Message entity)
         {
-            throw new NotImplementedException();
+            this._context.Update(entity);
+            return true;
         }
     }
 }

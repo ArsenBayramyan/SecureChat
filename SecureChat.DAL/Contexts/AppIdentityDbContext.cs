@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace SecureChat.DAL
 {
@@ -11,6 +9,6 @@ namespace SecureChat.DAL
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
         :base(options) { }
 
-        public IEnumerable<User> Users { get; set; }
+        //public IEnumerable<User> Users { get; set; }
     }
 }

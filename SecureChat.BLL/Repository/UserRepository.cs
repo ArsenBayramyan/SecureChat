@@ -4,6 +4,7 @@ using SecureChat.DAL;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SecureChat.BLL.Repository
 {
@@ -47,5 +48,10 @@ namespace SecureChat.BLL.Repository
         {
            return _userManager.UpdateAsync(entity).Result.Succeeded;
         }
+        public IUser GetByEmail(IUser _user)
+        {
+             return _userManager.FindByEmailAsync(_user.Email).Result;
+        }
+
     }
 }

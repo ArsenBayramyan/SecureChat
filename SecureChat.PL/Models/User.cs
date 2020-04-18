@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SecureChat.Core.Interfaces;
+﻿using SecureChat.Core.Interfaces;
 using System;
 
-namespace SecureChat.BLL.Models
+namespace SecureChat.PL.Models
 {
     public class User : IUser
     {
