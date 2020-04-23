@@ -10,7 +10,7 @@ using SecureChat.DAL.Contexts;
 namespace SecureChat.DAL.Migrations.MessagesDB
 {
     [DbContext(typeof(MessagesDBContext))]
-    [Migration("20200417153905_Initial")]
+    [Migration("20200420225217_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,9 +29,9 @@ namespace SecureChat.DAL.Migrations.MessagesDB
 
                     b.Property<string>("Body");
 
-                    b.Property<DateTime>("DeletedDate");
-
                     b.Property<string>("From");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("SendDate");
 

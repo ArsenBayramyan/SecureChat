@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace SecureChat.BLL.Repository
 {
-    public class UserRepository : IRepository<IUser>
+    public class UserRepository : IRepository<User>
     {
-        private UserManager<IUser> _userManager;
+        private UserManager<User> _userManager;
 
-        public UserRepository(UserManager<IUser> userManager)
+        public UserRepository(UserManager<User> userManager)
         {
             this._userManager = userManager;
         }
 
-        public bool Delete(IUser entity)
+        public bool Delete(User entity)
         {
             return _userManager.DeleteAsync(entity).Result.Succeeded;
         }
@@ -29,29 +29,35 @@ namespace SecureChat.BLL.Repository
             return _userManager.DeleteAsync(entity).Result.Succeeded;
         }
 
-        public IUser GetByID(int id)
+        public User GetByID(int id)
         {
             return _userManager.FindByIdAsync(id.ToString()).Result;
         }
 
-        public IEnumerable<IUser> List()
+        public IEnumerable<User> List()
         {
            return _userManager.Users;
         }
 
-        public bool Save(IUser entity)
+        public bool Save(User entity)
         {
-            return _userManager.CreateAsync(entity).Result.Succeeded;
+            var result = _userManager.CreateAsync(entity,entity.ConfirmPassword).Result;
+            
+            return result.Succeeded;
         }
 
-        public bool Update(IUser entity)
+        public bool Update(User entity)
         {
-           return _userManager.UpdateAsync(entity).Result.Succeeded;
+              return _userManager.UpdateAsync(entity).Result.Succeeded;
+           
         }
-        public IUser GetByEmail(IUser _user)
+        public User GetByEmail(User _user)
         {
-             return _userManager.FindByEmailAsync(_user.Email).Result;
+            return _userManager.FindByEmailAsync(_user.Email).Result;
         }
-
+        public  User GetUserByName(string name)
+        {
+            return _userManager.FindByNameAsync(name).Result;
+        }
     }
 }

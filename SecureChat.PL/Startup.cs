@@ -11,8 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SecureChat.BLL.Repository;
+using SecureChat.Core.Interfaces;
 using SecureChat.DAL;
 using SecureChat.DAL.Contexts;
+using SecureChat.DAL.Models;
 
 namespace SecureChat.PL
 {
@@ -33,10 +36,12 @@ namespace SecureChat.PL
             var messagesConString = Configuration["Data:SecureChatMessages:ConnectionString"];
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(identityConString));
             services.AddDbContext<MessagesDBContext>(options => options.UseSqlServer(messagesConString));
+            services.AddTransient<IRepository<User>,UserRepository>();
+            services.AddTransient<IRepository<IMessage>,MessageRepository>();
             services.AddIdentity<User, IdentityRole>(opts=>
             {
                 
-                opts.User.RequireUniqueEmail = true;
+                opts.User.RequireUniqueEmail = false;
                 opts.Password.RequiredLength = 6;
                 opts.Password.RequireNonAlphanumeric = true;
                 opts.Password.RequireLowercase = true;
@@ -53,7 +58,17 @@ namespace SecureChat.PL
             app.UseStatusCodePages();
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                  name: null,
+                  template: "{user}",
+                  defaults: new { controller = "User", action = "List" }
+                );
+                routes.MapRoute(
+                   name: "default",
+                   template: "{controller=Account}/{action=LoginPage}/{id?}");
+            });
         }
     }
 }

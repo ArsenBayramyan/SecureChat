@@ -13,35 +13,78 @@ namespace SecureChat.BLL.BL
         public UserBL(UserRepository repository):base(repository)
         {}
 
-        public bool Delete(IUser entity) => repository.Delete(entity);
+        public bool Delete(User entity)
+        {
+            var _entity = new SecureChat.DAL.User
+            {
+                UserName = entity.PasswordHash,
+                LastName = entity.LastName,
+                BirthDate = entity.BirthDate,
+                City = entity.City,
+                Address = entity.Address,
+                PasswordHash = entity.PasswordHash,
+                ConfirmPassword = entity.ConfirmPassword,
+                Email = entity.Email,
+            };
+            return repository.Delete(_entity);
+        }
         public bool DeleteById(int id) => repository.DeleteById(id);
-        public IUser GetByID(int id) => repository.GetByID(id);
-        public IEnumerable<IUser> List() => repository.List();
-
-        public bool Update(IUser entity) => repository.Update(entity);
-        public bool SaveUser(IUser entity)
+        public User GetByID(int id)
         {
-            if (true)
+            var user=repository.GetByID(id);
+            var _entity = new SecureChat.BLL.Models.User
             {
-                entity.RegistretionDate = DateTime.Now;
-
-                return repository.Save(entity);
+                UserName = user.UserName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                City = user.City,
+                Address = user.Address,
+                PasswordHash =user.PasswordHash,
+                ConfirmPassword = user.ConfirmPassword,
+                Email =user.Email,
+            };
+            return _entity;
+        }
+        public IEnumerable<SecureChat.DAL.User> List()
+        {
+            return repository.List();
+        }
+        public bool Update(User entity)
+        {
+            var _entity = new SecureChat.DAL.User
+            {
+                UserName = entity.UserName,
+                LastName = entity.LastName,
+                BirthDate = entity.BirthDate,
+                City = entity.City,
+                Address = entity.Address,
+                PasswordHash = entity.PasswordHash,
+                ConfirmPassword = entity.ConfirmPassword,
+                Email = entity.Email,
+            };
+            return repository.Update(_entity);
+        }
+        public bool SaveUser(User entity)
+        {
+            var _entity = new SecureChat.DAL.User
+            {
+                UserName=entity.UserName,
+                LastName = entity.LastName,
+                BirthDate = entity.BirthDate,
+                City = entity.City,
+                Address = entity.Address,
+                PasswordHash = entity.PasswordHash,
+                ConfirmPassword = entity.ConfirmPassword,
+                Email = entity.Email,
+            };
+            var resultUser = repository.GetByEmail(_entity);
+            if (resultUser == null)
+            {
+                entity.RegistrationDate = DateTime.Now;
+                return repository.Save(_entity);
             }
             return false;
         }
-        public bool LoginUser(IUser userLogin,Task<IUser> user)
-        {
-
-            if (user!=null)
-            {
-               
-            }
-            return false;
-        }
-
-        public void SetSigninManager(SignInManager<User> signInManager)
-        {
-
-        }
+        public IUser GetUserByName(string name) => repository.GetUserByName(name);
     }
 }

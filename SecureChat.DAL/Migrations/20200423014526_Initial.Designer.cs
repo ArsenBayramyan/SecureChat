@@ -10,7 +10,7 @@ using SecureChat.DAL;
 namespace SecureChat.DAL.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20200416183506_Initial")]
+    [Migration("20200423014526_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -138,13 +138,25 @@ namespace SecureChat.DAL.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Address");
+
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("City");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("ConfirmPassword");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -161,6 +173,8 @@ namespace SecureChat.DAL.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<DateTime>("RegistrationDate");
 
                     b.Property<string>("SecurityStamp");
 

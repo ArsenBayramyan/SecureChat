@@ -12,6 +12,6 @@ namespace SecureChat.DAL.Contexts
         public MessagesDBContext(DbContextOptions<MessagesDBContext> options)
       : base(options) { }
 
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<IMessage> Messages { get; set; }
     }
 }

@@ -27,9 +27,9 @@ namespace SecureChat.DAL.Migrations.MessagesDB
 
                     b.Property<string>("Body");
 
-                    b.Property<DateTime>("DeletedDate");
-
                     b.Property<string>("From");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime>("SendDate");
 

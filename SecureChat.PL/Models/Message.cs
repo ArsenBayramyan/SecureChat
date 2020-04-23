@@ -1,18 +1,19 @@
 ﻿using SecureChat.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SecureChat.BLL.Models
+namespace SecureChat.PL.Models
 {
-    public class Message : IMessage
+    public class Message:IMessage
     {
         public int MessageID { get; set; }
         public int From { get; set; }
         public int To { get; set; }
         public string Body { get; set; }
-        public bool Status { get; set; }
         public DateTime SendDate { get; set; }
+        public bool Status { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace SecureChat.DAL.Migrations.MessagesDB
                     Body = table.Column<string>(nullable: true),
                     SendDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
-                    DeletedDate = table.Column<DateTime>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

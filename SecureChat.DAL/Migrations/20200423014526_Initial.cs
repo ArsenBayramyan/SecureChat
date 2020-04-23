@@ -40,7 +40,14 @@ namespace SecureChat.DAL.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
+                    BirthDate = table.Column<DateTime>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    ConfirmPassword = table.Column<string>(nullable: true),
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

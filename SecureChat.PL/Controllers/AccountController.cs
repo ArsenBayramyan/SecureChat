@@ -7,19 +7,21 @@ using SecureChat.PL.Models;
 using System.Net;
 using System.Threading.Tasks;
 
+
 namespace SecureChat.PL.Controllers
 {
     public class AccountController : Controller
     {
         private UserRepository _repository;
-        private SignInManager<User> _managerMgr;
-        public AccountController(IRepository<User> repository,SignInManager<User> managerMgr)
+        private SignInManager<SecureChat.DAL.User> _managerMgr;
+        public AccountController(IRepository<SecureChat.DAL.User> repository,SignInManager<SecureChat.DAL.User> managerMgr)
         {
             _repository = repository as UserRepository;
             _managerMgr = managerMgr;
         }
         [HttpGet]
         public ViewResult Registration() => View();
+
         [HttpPost]
         public IActionResult Registration(UserCreateModel createUser)
         {
@@ -27,56 +29,63 @@ namespace SecureChat.PL.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new User
+                var user = new SecureChat.BLL.Models.User
                 {
-                    FirstName = createUser.FirstName,
+                    UserName = createUser.FirstName,
                     LastName = createUser.LastName,
                     BirthDate = createUser.BirthDate,
                     City = createUser.City,
                     Address = createUser.Address,
-                    Password = createUser.Password,
+                    PasswordHash = createUser.Password,
                     ConfirmPassword = createUser.ConfirmPassword,
                     Email=createUser.Email,
                 };
 
                 if (userBL.SaveUser(user))
                 {
-                    return RedirectToAction("Login",new UserLoginModel
-                                                        { Email=user.Email,
-                                                          Password =user.Password
-                                                         });
+                    return RedirectToAction("Login", "Account", null);
                 }    
             }
-
             return View(createUser);
         }
-        [HttpGet]
+        
         public IActionResult Login() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(UserLoginModel userLogin)
         {
             UserBL userBl = new UserBL(_repository);
             if (ModelState.IsValid)
             {
-                IUser user = new User
+                var user = new SecureChat.DAL.User
                 {
-                    Email=userLogin.Email,
-                    Password=userLogin.Password
+                    Email = userLogin.Email,
+                    PasswordHash = userLogin.Password,
                 };
-                IUser FindUser = _repository.GetByEmail(user);
-                
-                userBl.LoginUser(user,FindUser);
+                var FindUser = _repository.GetByEmail(user) as SecureChat.DAL.User;
+                if (FindUser != null)
+                {
+                    _managerMgr.SignOutAsync();
+                    var result =
+                          _managerMgr.PasswordSignInAsync(FindUser, user.PasswordHash, false, false).Result;
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("/Home/Index");
+                    }
+                }
+                ModelState.AddModelError(nameof(userLogin.Email), "Invalid user or password");
             }
-            return null;
+            return RedirectToAction("LoginPage");
         }
-
+        public IActionResult LogOut() => RedirectToAction("Login");
+       
         [HttpPost]
         public bool Delete(User userDelete)
         {
             var entity = userDelete as IUser;
 
-            return _repository.Delete(entity);
+            return _repository.Delete(entity as SecureChat.DAL.User);
         }   
 
         [HttpGet]
@@ -96,6 +105,6 @@ namespace SecureChat.PL.Controllers
         {
             return null;
         }
-
+       
     }
 }
