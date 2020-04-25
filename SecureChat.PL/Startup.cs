@@ -38,9 +38,10 @@ namespace SecureChat.PL
             services.AddDbContext<MessagesDBContext>(options => options.UseSqlServer(messagesConString));
             services.AddTransient<IRepository<User>,UserRepository>();
             services.AddTransient<IRepository<IMessage>,MessageRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

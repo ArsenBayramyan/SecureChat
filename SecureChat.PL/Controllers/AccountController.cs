@@ -1,29 +1,36 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SecureChat.BLL.BL;
 using SecureChat.BLL.Repository;
+using SecureChat.Core;
 using SecureChat.Core.Interfaces;
 using SecureChat.PL.Models;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
 namespace SecureChat.PL.Controllers
 {
+   // [Authorize]
     public class AccountController : Controller
     {
         private UserRepository _repository;
         private SignInManager<SecureChat.DAL.User> _managerMgr;
-        public AccountController(IRepository<SecureChat.DAL.User> repository,SignInManager<SecureChat.DAL.User> managerMgr)
+        private UserManager<SecureChat.DAL.User> _userManager;
+        public AccountController(IRepository<SecureChat.DAL.User> repository,SignInManager<SecureChat.DAL.User> managerMgr, UserManager<SecureChat.DAL.User> userManager)
         {
             _repository = repository as UserRepository;
             _managerMgr = managerMgr;
+            _userManager = userManager;
         }
         [HttpGet]
         public ViewResult Registration() => View();
 
         [HttpPost]
+       // [AllowAnonymous]
         public IActionResult Registration(UserCreateModel createUser)
         {
             var userBL = new UserBL(_repository);
@@ -55,11 +62,13 @@ namespace SecureChat.PL.Controllers
             return View(createUser);
         }
         [HttpGet]
+       // [AllowAnonymous]
         public ViewResult Login() => View();
 
         [HttpPost]
+       // [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(UserLoginModel userLogin)
+        public async Task<IActionResult> Login(UserLoginModel userLogin)
         {
             UserBL userBl = new UserBL(_repository);
             if (ModelState.IsValid)
@@ -69,14 +78,15 @@ namespace SecureChat.PL.Controllers
                     Email = userLogin.Email,
                     PasswordHash = userLogin.Password,
                 };
-                var FindUser = _repository.GetByEmail(user) as SecureChat.DAL.User;
+                var FindUser = _repository.GetByEmail(user);
                 if (FindUser != null)
                 {
-                    _managerMgr.SignOutAsync();
+                   await _managerMgr.SignOutAsync();
                     var result =
-                          _managerMgr.PasswordSignInAsync(FindUser, user.PasswordHash, false, false).Result;
+                          _managerMgr.PasswordSignInAsync(FindUser, user.PasswordHash, true, false).Result;
                     if (result.Succeeded)
                     {
+                        Singleton.getInstance(FindUser.UserName);
                         return RedirectToAction("/Chat/Index");
                     }
                 }

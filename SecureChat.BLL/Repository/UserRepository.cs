@@ -16,7 +16,6 @@ namespace SecureChat.BLL.Repository
         {
             this._userManager = userManager;
         }
-
         public bool Delete(User entity)
         {
             return _userManager.DeleteAsync(entity).Result.Succeeded;
