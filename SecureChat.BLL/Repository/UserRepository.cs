@@ -41,7 +41,7 @@ namespace SecureChat.BLL.Repository
 
         public bool Save(User entity)
         {
-            var result = _userManager.CreateAsync(entity,entity.ConfirmPassword).Result;
+            var result = _userManager.CreateAsync(entity,entity.PasswordHash).Result;
             
             return result.Succeeded;
         }

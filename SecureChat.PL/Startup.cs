@@ -38,16 +38,7 @@ namespace SecureChat.PL
             services.AddDbContext<MessagesDBContext>(options => options.UseSqlServer(messagesConString));
             services.AddTransient<IRepository<User>,UserRepository>();
             services.AddTransient<IRepository<IMessage>,MessageRepository>();
-            services.AddIdentity<User, IdentityRole>(opts=>
-            {
-                
-                opts.User.RequireUniqueEmail = false;
-                opts.Password.RequiredLength = 6;
-                opts.Password.RequireNonAlphanumeric = true;
-                opts.Password.RequireLowercase = true;
-                opts.Password.RequireUppercase = true;
-                opts.Password.RequireDigit = true;
-            })
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>();
             services.AddMvc();
         }
@@ -67,7 +58,7 @@ namespace SecureChat.PL
                 );
                 routes.MapRoute(
                    name: "default",
-                   template: "{controller=Account}/{action=LoginPage}/{id?}");
+                   template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

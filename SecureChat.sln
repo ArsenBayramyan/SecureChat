@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureChat.DAL", "SecureCha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureChat.PL", "SecureChat.PL\SecureChat.PL.csproj", "{AE14C188-926D-4222-B244-2DA65E61657E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChat.Core", "SecureChat.Core\SecureChat.Core.csproj", "{9E17EB42-3237-467B-BF1F-040D882FB14A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecureChat.Core", "SecureChat.Core\SecureChat.Core.csproj", "{9E17EB42-3237-467B-BF1F-040D882FB14A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

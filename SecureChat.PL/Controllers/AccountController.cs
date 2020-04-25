@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SecureChat.BLL.BL;
 using SecureChat.BLL.Repository;
 using SecureChat.Core.Interfaces;
@@ -26,30 +27,35 @@ namespace SecureChat.PL.Controllers
         public IActionResult Registration(UserCreateModel createUser)
         {
             var userBL = new UserBL(_repository);
-
+            
             if (ModelState.IsValid)
             {
                 var user = new SecureChat.BLL.Models.User
                 {
-                    UserName = createUser.FirstName,
+                    UserName = createUser.Email,
+                    FirstName=createUser.FirstName,
                     LastName = createUser.LastName,
                     BirthDate = createUser.BirthDate,
                     City = createUser.City,
                     Address = createUser.Address,
                     PasswordHash = createUser.Password,
-                    ConfirmPassword = createUser.ConfirmPassword,
                     Email=createUser.Email,
                 };
-
+                
                 if (userBL.SaveUser(user))
                 {
-                    return RedirectToAction("Login", "Account", null);
-                }    
+                    return RedirectToAction("Login",new UserLoginModel
+                                                        {
+                                                           Email=user.Email,
+                                                           Password=user.PasswordHash
+                                                        });
+                }
+                   
             }
             return View(createUser);
         }
-        
-        public IActionResult Login() => View();
+        [HttpGet]
+        public ViewResult Login() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,12 +77,12 @@ namespace SecureChat.PL.Controllers
                           _managerMgr.PasswordSignInAsync(FindUser, user.PasswordHash, false, false).Result;
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("/Home/Index");
+                        return RedirectToAction("/Chat/Index");
                     }
                 }
                 ModelState.AddModelError(nameof(userLogin.Email), "Invalid user or password");
             }
-            return RedirectToAction("LoginPage");
+            return RedirectToAction("Login");
         }
         public IActionResult LogOut() => RedirectToAction("Login");
        

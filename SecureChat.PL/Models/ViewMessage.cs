@@ -7,7 +7,7 @@ namespace SecureChat.PL.Models
 {
     public class ViewMessage
     {
-        public int To { get; set; }
+        public string To { get; set; }
         public string Body { get; set; }
     }
 }

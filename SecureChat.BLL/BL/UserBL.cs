@@ -17,13 +17,13 @@ namespace SecureChat.BLL.BL
         {
             var _entity = new SecureChat.DAL.User
             {
-                UserName = entity.PasswordHash,
+                UserName = entity.Email,
+                FirstName=entity.FirstName,
                 LastName = entity.LastName,
                 BirthDate = entity.BirthDate,
                 City = entity.City,
                 Address = entity.Address,
                 PasswordHash = entity.PasswordHash,
-                ConfirmPassword = entity.ConfirmPassword,
                 Email = entity.Email,
             };
             return repository.Delete(_entity);
@@ -34,13 +34,13 @@ namespace SecureChat.BLL.BL
             var user=repository.GetByID(id);
             var _entity = new SecureChat.BLL.Models.User
             {
-                UserName = user.UserName,
+                UserName = user.Email,
+                FirstName=user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
                 City = user.City,
                 Address = user.Address,
                 PasswordHash =user.PasswordHash,
-                ConfirmPassword = user.ConfirmPassword,
                 Email =user.Email,
             };
             return _entity;
@@ -53,13 +53,13 @@ namespace SecureChat.BLL.BL
         {
             var _entity = new SecureChat.DAL.User
             {
-                UserName = entity.UserName,
+                UserName = entity.Email,
+                FirstName=entity.FirstName,
                 LastName = entity.LastName,
                 BirthDate = entity.BirthDate,
                 City = entity.City,
                 Address = entity.Address,
                 PasswordHash = entity.PasswordHash,
-                ConfirmPassword = entity.ConfirmPassword,
                 Email = entity.Email,
             };
             return repository.Update(_entity);
@@ -68,13 +68,13 @@ namespace SecureChat.BLL.BL
         {
             var _entity = new SecureChat.DAL.User
             {
-                UserName=entity.UserName,
+                UserName=entity.Email,
+                FirstName=entity.FirstName,
                 LastName = entity.LastName,
                 BirthDate = entity.BirthDate,
                 City = entity.City,
                 Address = entity.Address,
                 PasswordHash = entity.PasswordHash,
-                ConfirmPassword = entity.ConfirmPassword,
                 Email = entity.Email,
             };
             var resultUser = repository.GetByEmail(_entity);

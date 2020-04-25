@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contexts\**" />
+    <EmbeddedResource Remove="Contexts\**" />
+    <None Remove="Contexts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Contexts\AppIdentityDbContext.cs" />
+    <Compile Include="Contexts\MessagesDBContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1">
