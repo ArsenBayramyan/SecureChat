@@ -119,6 +119,12 @@ namespace SecureChat.PL.Controllers
             _message.To = Id;
             return RedirectToAction("Index");
         }
-
+        //[HttpPost]
+        public ActionResult DeleteMessage(string Id)
+        {
+            MessageBL messageBL = new MessageBL(uow.messageRepository);
+            messageBL.DeleteById(Id);
+            return RedirectToAction("Index");
+        }
     }
 }

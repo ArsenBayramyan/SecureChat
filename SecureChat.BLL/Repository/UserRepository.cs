@@ -21,14 +21,14 @@ namespace SecureChat.BLL.Repository
             return _userManager.DeleteAsync(entity).Result.Succeeded;
         }
 
-        public bool DeleteById(int id)
+        public bool DeleteById(string id)
         {
             var entity = _userManager.FindByIdAsync(id.ToString()).Result;
 
             return _userManager.DeleteAsync(entity).Result.Succeeded;
         }
 
-        public User GetByID(int id)
+        public User GetByID(string id)
         {
             return _userManager.FindByIdAsync(id.ToString()).Result;
         }

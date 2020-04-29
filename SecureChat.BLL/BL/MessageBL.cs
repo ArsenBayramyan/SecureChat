@@ -16,14 +16,12 @@ namespace SecureChat.BLL.BL
         public List<SecureChat.DAL.Models.Message> GetMessages(string from, string to)
         {
             var messages = repository.List().ToList();
-            var messagesDecoding = new List<SecureChat.DAL.Models.Message>();
-            var message = new SecureChat.DAL.Models.Message();
             foreach (var item in messages)
             {
-                message.Body = item.Body.DecodingMatrix();
-                messagesDecoding.Add(message);
+                item.Body = item.Body.DecodingMatrix();
             }
-            return messagesDecoding.Where(m => (m.To == to && m.From == from) || (m.To == from && m.From == to)).ToList();
+            var x = messages.Where(m => m.To == to && m.From == from && m.IsDeleted==false|| m.To == from && m.From == to && m.IsDeleted==false).ToList();
+            return x;
         }
         public bool Delete(Message message)
         {
@@ -35,9 +33,13 @@ namespace SecureChat.BLL.BL
                 Body = message.Body,
                 SendDate=message.SendDate,
                 Status=message.Status,
-                IsDeleted = true
+                IsDeleted = message.IsDeleted
             };
             return repository.Delete(messageD);
+        }
+        public bool DeleteById(string Id)
+        {
+            return repository.DeleteById(Id);
         }
         public bool SendMessage(Message message)
         {

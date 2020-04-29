@@ -15,19 +15,19 @@ namespace SecureChat.BLL.Repository
         }
         public bool Delete(Message entity)
         {
-            this._context.Messages.Remove(entity);
+            this._context.Find<Message>(entity).IsDeleted=true;
             this._context.SaveChanges();
             return false;
         }
-        public bool DeleteById(int id)
+        public bool DeleteById(string id)
         {
-            Message message = this._context.Find<Message>(id);
-            this._context.Messages.Remove(message);
+            GetByID(id).IsDeleted = true;
+            this._context.SaveChanges();
             return false;
         }
-        public Message GetByID(int id)
+        public Message GetByID(string id)
         {
-            return this._context.Find<Message>(id);
+            return this._context.Find<Message>(int.Parse(id));
         }
         public IEnumerable<Message> List()
         {

@@ -28,8 +28,8 @@ namespace SecureChat.BLL.BL
             };
             return repository.Delete(_entity);
         }
-        public bool DeleteById(int id) => repository.DeleteById(id);
-        public User GetByID(int id)
+        public bool DeleteById(string id) => repository.DeleteById(id);
+        public User GetByID(string id)
         {
             var user=repository.GetByID(id);
             var _entity = new SecureChat.BLL.Models.User
