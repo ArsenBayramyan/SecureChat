@@ -8,11 +8,22 @@ namespace SecureChat.Core.Helper
     {
         public static string CodeingCaesar(this string value)
         {
+            if (value==null)
+            {
+                return null;
+            }
             List<char> originList = new List<char>()
                         { 'A','B','C','D','E','F','G','H','I','J','K','L','M',
-                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' ',','};
-            List<char> codeList = new List<char>() {'D','E','F','G','H','I','J','K','L','M',
-                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','$','#'};
+                          'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' ',',',
+                          'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
+                          'p','q','r','s','t','u','v','w','x','y','z'
+                        };
+            List<char> codeList = new List<char>()
+                               { 'D','E','F','G','H','I','J','K','L','M',
+                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','$','#',
+                                 'd','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',
+                                 'v','w','x','y','z','a','b','c'
+                               };
             int index = 0;
             List<char> outputList = new List<char>();
             for (int i = 0; i < value.Length; i++)
@@ -44,6 +55,15 @@ namespace SecureChat.Core.Helper
                     }
                 }
             }
+            string word = null;
+            for (int i = 0; i < MATRIX_ROWS; i++)
+            {
+                for (int j = 0; j < MATRIX_ROWS; j++)
+                {
+                    word += matrix[i, j];
+                }
+            }
+            int zeroCount = word.Length - value.Length;
             for (int i = 0; i < MATRIX_ROWS; i++)
             {
                 for (int j = i; j < MATRIX_ROWS; j++)
@@ -61,15 +81,23 @@ namespace SecureChat.Core.Helper
                     _outPut += matrix[i, j];
                 }
             }
+            _outPut += zeroCount;
             return _outPut;
         }
         private static string DecodingCaesar(string output)
         {
             List<char> originList = new List<char>()
                         { 'A','B','C','D','E','F','G','H','I','J','K','L','M',
-                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' ',','};
-            List<char> codeList = new List<char>() {'D','E','F','G','H','I','J','K','L','M',
-                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','$','#'};
+                          'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' ',',',
+                          'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
+                          'p','q','r','s','t','u','v','w','x','y','z'
+                        };
+            List<char> codeList = new List<char>()
+                               { 'D','E','F','G','H','I','J','K','L','M',
+                                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','$','#',
+                                 'd','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',
+                                 'v','w','x','y','z','a','b','c'
+                               };
             List<char> word = new List<char>();
             int index = 0;
             for (int i = 0; i < output.Length; i++)
@@ -81,7 +109,12 @@ namespace SecureChat.Core.Helper
         }
         public static string DecodingMatrix(this string value)
         {
-            int MATRIX_ROWS = Convert.ToInt32(Math.Ceiling(Math.Sqrt(value.Length)));
+            if (value==null)
+            {
+                return null;
+            }
+            var code = value.Substring(0, value.Length - 1);
+            int MATRIX_ROWS = Convert.ToInt32(Math.Ceiling(Math.Sqrt(code.Length)));
             string[,] matrix = new string[MATRIX_ROWS, MATRIX_ROWS];
             int inpCounter = 0;
             for (int i = 0; i < MATRIX_ROWS; i++)
@@ -118,7 +151,8 @@ namespace SecureChat.Core.Helper
                     outcode += matrix[i, j];
                 }
             }
-            string decode = outcode.Substring(0, value.Length);
+            int x = (int)(value[value.Length - 1] - '0');
+            var decode = outcode.Substring(0, outcode.Length - x);
             return DecodingCaesar(decode);
         }
     }

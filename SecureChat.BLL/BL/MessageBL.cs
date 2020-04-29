@@ -13,38 +13,43 @@ namespace SecureChat.BLL.BL
     {
         public MessageBL(MessageRepository repository) : base(repository) { }
 
-        public List<IMessage> GetMessages(int from, int to)
+        public List<SecureChat.DAL.Models.Message> GetMessages(string from, string to)
         {
-            List<IMessage> messages = new List<IMessage>();
-            foreach (var item in repository.List().ToList())
+            var messages = repository.List().ToList();
+            var messagesDecoding = new List<SecureChat.DAL.Models.Message>();
+            var message = new SecureChat.DAL.Models.Message();
+            foreach (var item in messages)
             {
-                messages.Add(item);
-            };
-            messages.Where(m => (m.To == to && m.From == from) || (m.To ==from && m.From == to));
-            foreach (var message in messages)
-            {
-                message.Body = message.Body.DecodingMatrix();
+                message.Body = item.Body.DecodingMatrix();
+                messagesDecoding.Add(message);
             }
-            return messages;
+            return messagesDecoding.Where(m => (m.To == to && m.From == from) || (m.To == from && m.From == to)).ToList();
         }
         public bool Delete(Message message)
         {
             var messageD = new SecureChat.DAL.Models.Message
             {
+                MessageID=message.MessageID,
                 From = message.From,
                 To = message.To,
                 Body = message.Body,
-                IsDeleted = message.IsDeleted
+                SendDate=message.SendDate,
+                Status=message.Status,
+                IsDeleted = true
             };
             return repository.Delete(messageD);
         }
         public bool SendMessage(Message message)
         {
             var messageD = new SecureChat.DAL.Models.Message {
+                MessageID=message.MessageID,
                 From = message.From,
                 To = message.To,
                 Body = message.Body.CodeingCaesar(),
-                SendDate = DateTime.Now };
+                SendDate = DateTime.Now,
+                Status=message.Status,
+                IsDeleted=false
+            };
             return repository.Save(messageD);
         }
        

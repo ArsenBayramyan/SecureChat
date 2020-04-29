@@ -644,6 +644,7 @@
 
 #frame .content .messages {
     height: auto;
+    width:550px;
     min-height: calc(100% - 93px);
     max-height: calc(100% - 93px);
     overflow-y: scroll;
@@ -724,6 +725,13 @@
     z-index: 99;
 }
 
+ #frame .content .message-input .wrap textarea{
+     line-height:18px;
+     width:396px;
+     font-family:inherit;
+     font-size:inherit;
+ }
+
     #frame .content .message-input .wrap {
         position: relative;
     }
@@ -783,7 +791,7 @@
 @media screen and (max-width: 735px) {
     #frame .content .message-input .wrap button {
         padding: 16px 0;
-    }
+    } 
 }
 
 #frame .content .message-input .wrap button:hover {
@@ -793,3 +801,4 @@
 #frame .content .message-input .wrap button:focus {
     outline: none;
 }
+

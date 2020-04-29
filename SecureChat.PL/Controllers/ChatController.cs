@@ -15,22 +15,21 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Message = SecureChat.PL.Models.Message;
+using User = SecureChat.PL.Models.User;
 
 namespace SecureChat.PL.Controllers
 {
     [Authorize]
     public class ChatController:Controller
     {
-        //private MessageRepository repository;
-        //private UserRepository userRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private UnitOfWorkRepository uow;
         private UserManager<SecureChat.DAL.User> userManager;
-        public ChatController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context, IHttpContextAccessor httpContextAccessor)
+        private IMessage _message;
+        public ChatController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context,IMessage message)
         {
             this.userManager = userManager;
             uow = new UnitOfWorkRepository(userManager, context);
-            _httpContextAccessor = httpContextAccessor;
+            _message = message;
         }
         public IActionResult Login() => View();
         [HttpPost]
@@ -45,33 +44,44 @@ namespace SecureChat.PL.Controllers
             };
             return messageBL.Delete(messageB);
         }
-        [HttpGet]
-        public IUser GetSenderUser()
+        public User CurrentUser()
         {
-            UserBL userBL = new UserBL(uow.userRepository);
-            return userBL.GetUserByName(HttpContext.User.Identity.Name);
+            var user = uow.userRepository.GetUserByName(HttpContext.User.Identity.Name);
+            return new User
+            {
+                Id=user.Id,
+                UserName = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                City = user.City,
+                Address = user.Address,
+                PasswordHash = user.PasswordHash,
+                Email = user.Email,
+            };
         }
         [HttpPost]
-        public bool SentMessage()
+        public ActionResult SendMessage([FromForm]string MessageBody)
         {
-            Message messageView = new Message();
-            var to = RouteData?.Values["user"].ToString();
-            UserBL userBL = new UserBL(uow.userRepository);
-            //messageView.From = GetSenderUser().FirstName;
-            //messageView.To = userBL.GetUserByName(to).UserID;
-            messageView.Body = null;
-            MessageBL messageBL = new MessageBL(uow.messageRepository);
-            var messageB = new SecureChat.BLL.Models.Message
+            _message.Body = MessageBody;
+            var messageBL = new MessageBL(uow.messageRepository);
+            messageBL.SendMessage(new SecureChat.BLL.Models.Message
             {
-                From = messageView.From,
-                To = messageView.To,
-                Body = messageView.Body
-            };
-            return messageBL.SendMessage(messageB);
+                MessageID = _message.MessageID,
+                From = _message.From,
+                To = _message.To,
+                Body = _message.Body,
+                SendDate = _message.SendDate,
+                Status = _message.Status,
+                IsDeleted = _message.IsDeleted
+            });
+            return RedirectToAction("Index");
         }
         [AllowAnonymous]
         public IActionResult Index()
         {
+            var currentUseer = CurrentUser();
+            _message.From = currentUseer.Id;
             var chatViewModel = new ChatViewModel();
             var list = uow.userRepository.List().ToList();
             var listuser = new List<SecureChat.PL.Models.User>();
@@ -79,6 +89,7 @@ namespace SecureChat.PL.Controllers
             {
                 var userpl = new SecureChat.PL.Models.User
                 {
+                    Id=user.Id,
                     UserName = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -90,11 +101,24 @@ namespace SecureChat.PL.Controllers
                 };
                 listuser.Add(userpl);
             }
-            chatViewModel.Users = listuser;
-            var lisUser = listuser.Where(u => u.UserName ==);
-
-            //  chatViewModel.Messages = uow.messageRepository.List().ToList();
-            return View(chatViewModel);
+            var users = listuser.Where(u => u.Id != currentUseer.Id).ToList();
+            var messageBL = new MessageBL(uow.messageRepository);
+            _message.To = _message.To ?? string.Empty;
+            var messages = messageBL.GetMessages(_message.From, _message.To);
+            var chatModel = new ChatViewModel
+            {
+                Users = users,
+                Messages = messages,
+                CurrentUser=currentUseer,
+            };
+            return View(chatModel);
         }
+        [HttpGet]
+        public ActionResult GetMessagedByUser([FromRoute]string Id)
+        {
+            _message.To = Id;
+            return RedirectToAction("Index");
+        }
+
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SecureChat.BLL.Repository
 {
-    public class MessageRepository : IRepository<IMessage>
+    public class MessageRepository : IRepository<Message>
     {
         private MessagesDBContext _context;
 
@@ -13,7 +13,7 @@ namespace SecureChat.BLL.Repository
         {
             this._context = context;
         }
-        public bool Delete(IMessage entity)
+        public bool Delete(Message entity)
         {
             this._context.Messages.Remove(entity);
             this._context.SaveChanges();
@@ -25,21 +25,26 @@ namespace SecureChat.BLL.Repository
             this._context.Messages.Remove(message);
             return false;
         }
-        public IMessage GetByID(int id)
+        public Message GetByID(int id)
         {
             return this._context.Find<Message>(id);
         }
-        public IEnumerable<IMessage> List()
+        public IEnumerable<Message> List()
         {
-            return this._context.Messages;
+            var x = this._context.Messages;
+            return x;
         }
-        public bool Save(IMessage entity)
+        public bool Save(Message entity)
         {
+            if (entity.Body==null)
+            {
+                return false;
+            }
             this._context.Messages.Add(entity);
             _context.SaveChanges();
             return true;
         }
-        public bool Update(IMessage entity)
+        public bool Update(Message entity)
         {
             this._context.Update(entity);
             return true;

@@ -2,29 +2,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Options;
 using SecureChat.BLL.BL;
 using SecureChat.BLL.Repository;
 using SecureChat.Core;
 using SecureChat.Core.Interfaces;
+using SecureChat.DAL;
 using SecureChat.PL.Models;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using User = SecureChat.DAL.User;
 
 namespace SecureChat.PL.Controllers
 {
-   // [Authorize]
+    [Authorize]
     public class AccountController : Controller
     {
         private UserRepository _repository;
         private SignInManager<SecureChat.DAL.User> _managerMgr;
-        private UserManager<SecureChat.DAL.User> _userManager;
-        public AccountController(IRepository<SecureChat.DAL.User> repository,SignInManager<SecureChat.DAL.User> managerMgr, UserManager<SecureChat.DAL.User> userManager)
+        public AccountController(IRepository<SecureChat.DAL.User> repository,SignInManager<SecureChat.DAL.User> managerMgr)
         {
             _repository = repository as UserRepository;
             _managerMgr = managerMgr;
-            _userManager = userManager;
         }
         [HttpGet]
         public ViewResult Registration() => View();
@@ -62,11 +62,11 @@ namespace SecureChat.PL.Controllers
             return View(createUser);
         }
         [HttpGet]
-       // [AllowAnonymous]
+        [AllowAnonymous]
         public ViewResult Login() => View();
 
         [HttpPost]
-       // [AllowAnonymous]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserLoginModel userLogin)
         {
@@ -81,13 +81,12 @@ namespace SecureChat.PL.Controllers
                 var FindUser = _repository.GetByEmail(user);
                 if (FindUser != null)
                 {
-                   await _managerMgr.SignOutAsync();
+                    await _managerMgr.SignOutAsync();
                     var result =
                           _managerMgr.PasswordSignInAsync(FindUser, user.PasswordHash, true, false).Result;
                     if (result.Succeeded)
                     {
-                        Singleton.getInstance(FindUser.UserName);
-                        return RedirectToAction("/Chat/Index");
+                       return Redirect("/Chat/Index");
                     }
                 }
                 ModelState.AddModelError(nameof(userLogin.Email), "Invalid user or password");

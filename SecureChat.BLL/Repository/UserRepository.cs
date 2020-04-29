@@ -35,6 +35,7 @@ namespace SecureChat.BLL.Repository
 
         public IEnumerable<User> List()
         {
+            var x = _userManager.Users;
            return _userManager.Users;
         }
 

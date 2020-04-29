@@ -9,11 +9,11 @@ namespace SecureChat.Core.Interfaces
     {
         [Key]
         int MessageID { get; set; }
-        int From { get; set; }
-        int To { get; set; }
+        string From { get; set; }
+        string To { get; set; }
         string Body { get; set; }
-        bool Status { get; set; }
-        DateTime SendDate { get; set; }
-        bool IsDeleted { get; set; }
+        bool? Status { get; set; }
+        DateTime? SendDate { get; set; }
+        bool? IsDeleted { get; set; }
     }
 }
