@@ -24,7 +24,7 @@
             <div class="wrap">
                 @if (Model.CurrentUser.Sex == "Male")
                 {
-                    <img id="profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="online" alt="" />
+                    <img id="profile-img" src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="online" alt="" />
                     <p>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</p>
                     <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
                 }
@@ -62,7 +62,7 @@
                             @if (user.Sex == "Male" && user.IsDeleted==false)
                             {
                                 <div class="d-flex">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-4" alt="" />
+                                    <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-4" alt="" />
                                     <div class="meta">
                                         <a asp-action="GetMessagedByUser"
                                            asp-controller="Chat" asp-route-Id="@user.Id">
@@ -91,22 +91,27 @@
         <div id="bottom-bar">
             <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
             <form asp-action="Delete" asp-controller="Account" asp-route-Id="@Model.CurrentUser.Id" metod="post">
-                <button id="settings"><i href="https://www.flaticon.com/authors/smashicons"></i><span>Remove account</span></button>
+                <button id="settings"><i class="fa fa-times"></i><span>Remove account</span></button>
             </form>
         </div>
     </div>
     <div class="content">
         <div class="contentHeder">
             <div class="d-flex justify-content-start">
-                @if (Model.ToUser.Sex == "Male")
+                @if (Model.ToUser.FirstName != null)
                 {
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-2" alt="Alternate Text" />
+                    if (Model.ToUser.Sex == "Male")
+                    {
+                        <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2" alt="Alternate Text" />
+                    }
+                    else if (Model.ToUser.Sex == "Female")
+                    {
+                        <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2" alt="Alternate Text" />
+                    }
+                    <p>@Model.ToUser.FirstName @Model.ToUser.LastName</p>
+
                 }
-                else
-                {
-                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2" alt="Alternate Text" />
-                }
-                <p>@Model.ToUser.FirstName @Model.ToUser.LastName</p>
+
             </div>
         </div>
         <div class="messages">
@@ -125,7 +130,7 @@
                             @if (Model.CurrentUser.Sex == "Male")
                             {
 
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-0 ml-2" alt="" />
+                                <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-0 ml-2" alt="" />
                             }
                             else
                             {
@@ -140,11 +145,11 @@
                             @if (Model.ToUser.Sex == "Male")
                             {
 
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-0 ml-2" alt="" />
+                                <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2 ml-0" alt="" />
                             }
                             else
                             {
-                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
+                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2 ml-0" alt="" />
                             }
                             <p class="d-flex align-items-center" style="background-color: lightgray;color: black;">
                                 @item.Body

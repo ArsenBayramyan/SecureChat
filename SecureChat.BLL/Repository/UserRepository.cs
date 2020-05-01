@@ -24,6 +24,7 @@ namespace SecureChat.BLL.Repository
         public bool DeleteById(string Id)
         {
             var user = this._userManager.FindByIdAsync(Id).Result;
+            user.IsDeleted = true;
             return Update(user);
         }
 

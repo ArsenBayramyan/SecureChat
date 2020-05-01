@@ -46,6 +46,7 @@ namespace SecureChat.BLL.BL
                 Address = user.Address,
                 PasswordHash =user.PasswordHash,
                 Email =user.Email,
+                IsDeleted=user.IsDeleted
             };
             return entity;
         }
@@ -67,6 +68,7 @@ namespace SecureChat.BLL.BL
                 Address = entity.Address,
                 PasswordHash = entity.PasswordHash,
                 Email = entity.Email,
+                IsDeleted=entity.IsDeleted
             };
             return repository.Update(_entity);
         }
@@ -84,6 +86,7 @@ namespace SecureChat.BLL.BL
                 Address = entity.Address,
                 PasswordHash = entity.PasswordHash,
                 Email = entity.Email,
+                IsDeleted=entity.IsDeleted
             };
             var resultUser = repository.GetByEmail(_entity);
             if (resultUser == null)

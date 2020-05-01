@@ -24,7 +24,7 @@ namespace SecureChat.PL.Controllers
     {
         private UnitOfWorkRepository _uow;
         private IMessage _message;
-        private SecureChat.DAL.User _user;
+        private IUser _user;
         public ChatController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context,
             SignInManager<SecureChat.DAL.User> signInManager,IMessage message, IUser user)
         {
@@ -49,6 +49,7 @@ namespace SecureChat.PL.Controllers
                 Address = user.Address,
                 PasswordHash = user.PasswordHash,
                 Email = user.Email,
+                IsDeleted=user.IsDeleted
             };
         }
         public User ToUser(string Id)
@@ -66,6 +67,7 @@ namespace SecureChat.PL.Controllers
                 Address = user.Address,
                 PasswordHash = user.PasswordHash,
                 Email = user.Email,
+                IsDeleted=user.IsDeleted
             };
 
         }
@@ -108,48 +110,24 @@ namespace SecureChat.PL.Controllers
                     Address = user.Address,
                     PasswordHash = user.PasswordHash,
                     Email = user.Email,
+                    IsDeleted=user.IsDeleted
                 };
                 listuser.Add(userpl);
             }
-            var users = listuser.Where(u => u.Id != currentUseer.Id).ToList();
+            var users = listuser.Where(u => u.Id != currentUseer.Id && u.IsDeleted==false).ToList();
             var messageBL = new MessageBL(_uow.messageRepository);
             _message.To = _message.To ?? string.Empty;
-            if (_user.City=="1")
+            if (_message.To!=string.Empty)
             {
-                var user = ToUser(_user.Id);
-                _user = new DAL.User
-                {
-                    Id = user.Id,
-                    UserName = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    BirthDate = user.BirthDate,
-                    Sex = user.Sex,
-                    City = user.City,
-                    Address = user.Address,
-                    PasswordHash = user.PasswordHash,
-                    Email = user.Email
-                };
-            }
+                _user = ToUser(_message.To);
+            } ;
             var messages = messageBL.GetMessages(_message.From, _message.To);
             var chatModel = new ChatViewModel
             {
                 Users = users,
                 Messages = messages,
                 CurrentUser = currentUseer,
-                ToUser =new User
-                {
-                    Id = _user.Id,
-                    UserName = _user.Email,
-                    FirstName = _user.FirstName??string.Empty,
-                    LastName = _user.LastName??string.Empty,
-                    BirthDate = _user.BirthDate,
-                    Sex = _user.Sex??string.Empty,
-                    City = _user.City,
-                    Address = _user.Address,
-                    PasswordHash = _user.PasswordHash,
-                    Email = _user.Email
-                }
+                ToUser = _user
             };
             return View(chatModel);
         }
@@ -157,8 +135,6 @@ namespace SecureChat.PL.Controllers
         public ActionResult GetMessagedByUser([FromRoute]string Id)
         {
             _message.To = Id;
-            _user.Id = Id;
-            _user.City = "1";
             return RedirectToAction("Index");
         }
         public ActionResult DeleteMessage(string Id)

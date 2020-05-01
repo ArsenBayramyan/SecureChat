@@ -17,7 +17,7 @@ using User = SecureChat.DAL.User;
 
 namespace SecureChat.PL.Controllers
 {
-   // [Authorize]
+    [Authorize]
     public class AccountController : Controller
     {
         private UnitOfWorkRepository _uow;
