@@ -13,6 +13,8 @@ namespace SecureChat.PL.Models
         [UIHint("date")]
         public DateTime BirthDate { get; set; }
         [Required]
+        public string Sex { get; set; }
+        [Required]
         public string City { get; set; }
         public string Address { get; set; }
         [Required]

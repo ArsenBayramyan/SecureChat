@@ -21,16 +21,15 @@ namespace SecureChat.BLL.Repository
             return _userManager.DeleteAsync(entity).Result.Succeeded;
         }
 
-        public bool DeleteById(string id)
+        public bool DeleteById(string Id)
         {
-            var entity = _userManager.FindByIdAsync(id.ToString()).Result;
-
-            return _userManager.DeleteAsync(entity).Result.Succeeded;
+            var user = this._userManager.FindByIdAsync(Id).Result;
+            return Update(user);
         }
 
         public User GetByID(string id)
         {
-            return _userManager.FindByIdAsync(id.ToString()).Result;
+            return _userManager.FindByIdAsync(id).Result;
         }
 
         public IEnumerable<User> List()
@@ -48,8 +47,7 @@ namespace SecureChat.BLL.Repository
 
         public bool Update(User entity)
         {
-              return _userManager.UpdateAsync(entity).Result.Succeeded;
-           
+            return _userManager.UpdateAsync(entity).Result.Succeeded;
         }
         public User GetByEmail(User _user)
         {

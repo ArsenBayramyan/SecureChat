@@ -176,6 +176,8 @@ namespace SecureChat.DAL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("Sex");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")

@@ -10,7 +10,7 @@ using SecureChat.DAL;
 namespace SecureChat.DAL.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20200424170305_Initial")]
+    [Migration("20200430001420_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,8 @@ namespace SecureChat.DAL.Migrations
                     b.Property<DateTime>("RegistrationDate");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("Sex");
 
                     b.Property<bool>("TwoFactorEnabled");
 

@@ -12,10 +12,7 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script>
-<script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script>
-<script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
-<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+<!------ Include the above in your HEAD tag ---------->
 
 <script src="https://use.typekit.net/hoy3lrg.js"></script>
 <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
@@ -25,25 +22,30 @@
     <div id="sidepanel">
         <div id="profile">
             <div class="wrap">
-                <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
-                <p>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</p>
-				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-				<div id="status-options">
-					<ul>
-						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
-					</ul>
-				</div>
-				<div id="expanded">
-					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="mikeross" />
-					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="ross81" />
-					<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="mike.ross" />
-				</div>
+                @if (Model.CurrentUser.Sex == "Male")
+                {
+                    <img id="profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="online" alt="" />
+                    <p>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</p>
+                    <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                }
+                else
+                {
+                    <img id="profile-img" src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="online" alt="" />
+                    <p>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</p>
+                    <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                }
+                <div id="status-options">
+                    <ul>
+                        <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+                        <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+                        <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+                        <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+                    </ul>
+                </div>
+                <div id="expanded">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <a asp-action="LogOut" asp-controller="Account">Log Out</a>
+                </div>
             </div>
         </div>
         <div id="search">
@@ -57,14 +59,30 @@
                     <li class="contact btn btn-block">
                         <div class="wrap">
                             <span class="contact-status online"></span>
-                            <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
-                            <div class="meta">
-                                <a asp-action="GetMessagedByUser"
-                                   asp-controller="Chat" asp-route-Id="@user.Id">
-                                    <p class="name">@user.FirstName @user.LastName</p>
-                                    <p class="preview">@Model.MessageBody</p>
-                                </a>
-                            </div>
+                            @if (user.Sex == "Male" && user.IsDeleted==false)
+                            {
+                                <div class="d-flex">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-4" alt="" />
+                                    <div class="meta">
+                                        <a asp-action="GetMessagedByUser"
+                                           asp-controller="Chat" asp-route-Id="@user.Id">
+                                            <p class="name">@user.FirstName @user.LastName</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                            else if(user.IsDeleted==false)
+                            {
+                                <div class="d-flex">
+                                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-4" alt="" />
+                                    <div class="meta">
+                                        <a asp-action="GetMessagedByUser"
+                                           asp-controller="Chat" asp-route-Id="@user.Id">
+                                            <p class="name">@user.FirstName @user.LastName</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </li>
                 }
@@ -72,10 +90,25 @@
         </div>
         <div id="bottom-bar">
             <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-            <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+            <form asp-action="Delete" asp-controller="Account" asp-route-Id="@Model.CurrentUser.Id" metod="post">
+                <button id="settings"><i href="https://www.flaticon.com/authors/smashicons"></i><span>Remove account</span></button>
+            </form>
         </div>
     </div>
     <div class="content">
+        <div class="contentHeder">
+            <div class="d-flex justify-content-start">
+                @if (Model.ToUser.Sex == "Male")
+                {
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-2" alt="Alternate Text" />
+                }
+                else
+                {
+                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2" alt="Alternate Text" />
+                }
+                <p>@Model.ToUser.FirstName @Model.ToUser.LastName</p>
+            </div>
+        </div>
         <div class="messages">
             <ul>
                 @foreach (var item in Model.Messages)
@@ -86,19 +119,36 @@
                             <p class="d-flex align-items-center">
                                 @item.Body
                                 <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
-                                <i class="fa fa-trash treashIcon ml-2" aria-hidden="true" ></i>
+                                    <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
                                 </a>
                             </p>
-                            <img src="https://cdn.clipart.email/e01f148be92ff151a5fabadc8a8603d9_royalty-free-invisible-clip-art-vector-images-illustrations-_612-612.jpeg" class="mr-0 ml-2" alt="" />
+                            @if (Model.CurrentUser.Sex == "Male")
+                            {
+
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-0 ml-2" alt="" />
+                            }
+                            else
+                            {
+                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
+                            }
                         </li>
                     }
                     else
                     {
-                        <li class="sent">
-                            <img src="" alt="" />
+                        <li class="sent ">
+
+                            @if (Model.ToUser.Sex == "Male")
+                            {
+
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdWF6MLWdrj9y6-Acx7JYz2-EGlM_bqkk01OC3JA6fkjIXQERr&usqp=CAU" class="mr-0 ml-2" alt="" />
+                            }
+                            else
+                            {
+                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
+                            }
                             <p class="d-flex align-items-center" style="background-color: lightgray;color: black;">
                                 @item.Body
-                                <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID" >
+                                <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
                                     <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
                                 </a>
                             </p>

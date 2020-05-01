@@ -9,6 +9,7 @@ namespace SecureChat.BLL.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Sex { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public DateTime RegistrationDate { get; set; }

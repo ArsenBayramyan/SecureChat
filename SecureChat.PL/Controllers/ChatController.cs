@@ -22,31 +22,21 @@ namespace SecureChat.PL.Controllers
     [Authorize]
     public class ChatController:Controller
     {
-        private UnitOfWorkRepository uow;
-        private UserManager<SecureChat.DAL.User> userManager;
+        private UnitOfWorkRepository _uow;
         private IMessage _message;
-        public ChatController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context,IMessage message)
+        private SecureChat.DAL.User _user;
+        public ChatController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context,
+            SignInManager<SecureChat.DAL.User> signInManager,IMessage message, IUser user)
         {
-            this.userManager = userManager;
-            uow = new UnitOfWorkRepository(userManager, context);
+            _uow = new UnitOfWorkRepository(userManager, context,signInManager);
             _message = message;
+            _user = user as SecureChat.DAL.User;
         }
         public IActionResult Login() => View();
-        [HttpPost]
-        public bool Delete(Message message)
-        {
-            MessageBL messageBL = new MessageBL(uow.messageRepository);
-            var messageB = new SecureChat.BLL.Models.Message {
-                From = message.From,
-                To = message.To,
-                Body = message.Body,
-                IsDeleted = true
-            };
-            return messageBL.Delete(messageB);
-        }
+       
         public User CurrentUser()
         {
-            var user = uow.userRepository.GetUserByName(HttpContext.User.Identity.Name);
+            var user = _uow.userRepository.GetUserByName(HttpContext.User.Identity.Name);
             return new User
             {
                 Id=user.Id,
@@ -54,17 +44,36 @@ namespace SecureChat.PL.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 BirthDate = user.BirthDate,
+                Sex=user.Sex,
                 City = user.City,
                 Address = user.Address,
                 PasswordHash = user.PasswordHash,
                 Email = user.Email,
             };
         }
+        public User ToUser(string Id)
+        {
+            var user = _uow.userRepository.GetByID(Id);
+            return new User
+            {
+                Id = user.Id,
+                UserName = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                Sex = user.Sex,
+                City = user.City,
+                Address = user.Address,
+                PasswordHash = user.PasswordHash,
+                Email = user.Email,
+            };
+
+        }
         [HttpPost]
         public ActionResult SendMessage([FromForm]string MessageBody)
         {
             _message.Body = MessageBody;
-            var messageBL = new MessageBL(uow.messageRepository);
+            var messageBL = new MessageBL(_uow.messageRepository);
             messageBL.SendMessage(new SecureChat.BLL.Models.Message
             {
                 MessageID = _message.MessageID,
@@ -83,7 +92,7 @@ namespace SecureChat.PL.Controllers
             var currentUseer = CurrentUser();
             _message.From = currentUseer.Id;
             var chatViewModel = new ChatViewModel();
-            var list = uow.userRepository.List().ToList();
+            var list = _uow.userRepository.List().ToList();
             var listuser = new List<SecureChat.PL.Models.User>();
             foreach (var user in list)
             {
@@ -94,6 +103,7 @@ namespace SecureChat.PL.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     BirthDate = user.BirthDate,
+                    Sex=user.Sex,
                     City = user.City,
                     Address = user.Address,
                     PasswordHash = user.PasswordHash,
@@ -102,14 +112,44 @@ namespace SecureChat.PL.Controllers
                 listuser.Add(userpl);
             }
             var users = listuser.Where(u => u.Id != currentUseer.Id).ToList();
-            var messageBL = new MessageBL(uow.messageRepository);
+            var messageBL = new MessageBL(_uow.messageRepository);
             _message.To = _message.To ?? string.Empty;
+            if (_user.City=="1")
+            {
+                var user = ToUser(_user.Id);
+                _user = new DAL.User
+                {
+                    Id = user.Id,
+                    UserName = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    BirthDate = user.BirthDate,
+                    Sex = user.Sex,
+                    City = user.City,
+                    Address = user.Address,
+                    PasswordHash = user.PasswordHash,
+                    Email = user.Email
+                };
+            }
             var messages = messageBL.GetMessages(_message.From, _message.To);
             var chatModel = new ChatViewModel
             {
                 Users = users,
                 Messages = messages,
-                CurrentUser=currentUseer,
+                CurrentUser = currentUseer,
+                ToUser =new User
+                {
+                    Id = _user.Id,
+                    UserName = _user.Email,
+                    FirstName = _user.FirstName??string.Empty,
+                    LastName = _user.LastName??string.Empty,
+                    BirthDate = _user.BirthDate,
+                    Sex = _user.Sex??string.Empty,
+                    City = _user.City,
+                    Address = _user.Address,
+                    PasswordHash = _user.PasswordHash,
+                    Email = _user.Email
+                }
             };
             return View(chatModel);
         }
@@ -117,12 +157,13 @@ namespace SecureChat.PL.Controllers
         public ActionResult GetMessagedByUser([FromRoute]string Id)
         {
             _message.To = Id;
+            _user.Id = Id;
+            _user.City = "1";
             return RedirectToAction("Index");
         }
-        //[HttpPost]
         public ActionResult DeleteMessage(string Id)
         {
-            MessageBL messageBL = new MessageBL(uow.messageRepository);
+            MessageBL messageBL = new MessageBL(_uow.messageRepository);
             messageBL.DeleteById(Id);
             return RedirectToAction("Index");
         }

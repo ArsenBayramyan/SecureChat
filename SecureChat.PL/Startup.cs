@@ -40,6 +40,7 @@ namespace SecureChat.PL
             services.AddDbContext<MessagesDBContext>(options => options.UseSqlServer(messagesConString));
             services.AddTransient<IRepository<User>,UserRepository>();
             services.AddSingleton<IMessage,Message>();
+            services.AddSingleton<IUser, User>();
             services.AddTransient<IRepository<Message>,MessageRepository>();
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();

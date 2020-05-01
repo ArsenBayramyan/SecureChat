@@ -44,6 +44,7 @@ namespace SecureChat.DAL.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
+                    Sex = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     RegistrationDate = table.Column<DateTime>(nullable: false),

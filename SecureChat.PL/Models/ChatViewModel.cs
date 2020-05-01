@@ -8,6 +8,7 @@ namespace SecureChat.PL.Models
         public List<User> Users { get; set; }
         public IEnumerable<IMessage> Messages { get; set; }
         public User CurrentUser { get; set; }
+        public User ToUser { get; set; }
         public string MessageBody { get; set; }
     }
 }
