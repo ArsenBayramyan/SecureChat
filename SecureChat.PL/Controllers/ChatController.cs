@@ -120,7 +120,7 @@ namespace SecureChat.PL.Controllers
             if (_message.To!=string.Empty)
             {
                 _user = ToUser(_message.To);
-            } ;
+            };
             var messages = messageBL.GetMessages(_message.From, _message.To);
             var chatModel = new ChatViewModel
             {
@@ -132,7 +132,7 @@ namespace SecureChat.PL.Controllers
             return View(chatModel);
         }
         [HttpGet]
-        public ActionResult GetMessagedByUser([FromRoute]string Id)
+        public ActionResult GetMessagesByUser([FromRoute]string Id)
         {
             _message.To = Id;
             return RedirectToAction("Index");
@@ -142,6 +142,11 @@ namespace SecureChat.PL.Controllers
             MessageBL messageBL = new MessageBL(_uow.messageRepository);
             messageBL.DeleteById(Id);
             return RedirectToAction("Index");
+        }
+        public ActionResult Messages()
+        {
+            var messages=Json(_uow.messageRepository.List());
+            return messages;
         }
     }
 }

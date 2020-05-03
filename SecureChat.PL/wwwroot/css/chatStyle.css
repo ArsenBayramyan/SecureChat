@@ -431,7 +431,7 @@ textarea {
 }
 
 #frame #sidepanel #contacts.expanded {
-    height: calc(100% - 334px);
+    height: calc(100% - 234px);
 }
 
 #frame #sidepanel #contacts::-webkit-scrollbar {
@@ -474,6 +474,7 @@ textarea {
     width: 88%;
     margin: 0 auto;
     position: relative;
+    text-decoration: none;
 }
 
 @media screen and (max-width: 735px) {

@@ -18,6 +18,15 @@
 <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
 <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link href="~/css/chatStyle.css" rel="stylesheet" />
+<script type="text/javascript">
+    function getMessages(string to) {
+        $("#contacts").click(function () {
+            $.ajax({
+                url: '/Chat/Messages',
+                type:"GET"
+            })
+    }
+</script>
 <div id="frame">
     <div id="sidepanel">
         <div id="profile">
@@ -57,33 +66,29 @@
                 @foreach (var user in Model.Users)
                 {
                     <li class="contact btn btn-block">
-                        <div class="wrap">
+                        <a  asp-action="GetMessagesByUser"
+                                           asp-controller="Chat" asp-route-Id="@user.Id" class="wrap d-block">
                             <span class="contact-status online"></span>
                             @if (user.Sex == "Male" && user.IsDeleted==false)
                             {
                                 <div class="d-flex">
-                                    <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-4" alt="" />
+                                    <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-3" alt="" />
                                     <div class="meta">
-                                        <a asp-action="GetMessagedByUser"
-                                           asp-controller="Chat" asp-route-Id="@user.Id">
                                             <p class="name">@user.FirstName @user.LastName</p>
-                                        </a>
                                     </div>
                                 </div>
                             }
                             else if(user.IsDeleted==false)
                             {
                                 <div class="d-flex">
-                                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-4" alt="" />
+                                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-3" alt="" />
                                     <div class="meta">
-                                        <a asp-action="GetMessagedByUser"
-                                           asp-controller="Chat" asp-route-Id="@user.Id">
+
                                             <p class="name">@user.FirstName @user.LastName</p>
-                                        </a>
                                     </div>
                                 </div>
                             }
-                        </div>
+                        </a>
                     </li>
                 }
             </ul>
@@ -113,55 +118,6 @@
                 }
 
             </div>
-        </div>
-        <div class="messages">
-            <ul>
-                @foreach (var item in Model.Messages)
-                {
-                    @if (item.From == Model.CurrentUser.Id)
-                    {
-                        <li class="sent right">
-                            <p class="d-flex align-items-center">
-                                @item.Body
-                                <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
-                                    <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
-                                </a>
-                            </p>
-                            @if (Model.CurrentUser.Sex == "Male")
-                            {
-
-                                <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-0 ml-2" alt="" />
-                            }
-                            else
-                            {
-                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
-                            }
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="sent ">
-
-                            @if (Model.ToUser.Sex == "Male")
-                            {
-
-                                <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2 ml-0" alt="" />
-                            }
-                            else
-                            {
-                                <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2 ml-0" alt="" />
-                            }
-                            <p class="d-flex align-items-center" style="background-color: lightgray;color: black;">
-                                @item.Body
-                                <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
-                                    <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
-                                </a>
-                            </p>
-                        </li>
-                    }
-
-                }
-            </ul>
         </div>
         <form asp-action="SendMessage" asp-controller="Chat" method="post">
             <div class="message-input">

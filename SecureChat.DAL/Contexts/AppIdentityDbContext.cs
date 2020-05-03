@@ -9,6 +9,5 @@ namespace SecureChat.DAL
     {
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)
         : base(options) { }
-        //public IEnumerable<IUser> Users { get; set; }
     }
 }
