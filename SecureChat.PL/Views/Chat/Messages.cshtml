@@ -3,52 +3,70 @@
     Layout = null;
 }
 
-<div class="messages">
-    <ul>
-        @foreach (var item in Model.Messages)
-        {
-            @if (item.From == Model.CurrentUser.Id)
+    <div class="contentHeder">
+        <div class="d-flex justify-content-start">
+            @if (Model.ToUser?.FirstName != null)
             {
-                <li class="sent right">
-                    <p class="d-flex align-items-center">
-                        @item.Body
-                        <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
-                            <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
-                        </a>
-                    </p>
-                    @if (Model.CurrentUser.Sex == "Male")
-                    {
+                if (Model.ToUser?.Sex == "Male")
+                {
+                    <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2" alt="Alternate Text" />
+                }
+                else if (Model.ToUser?.Sex == "Female")
+                {
+                    <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2" alt="Alternate Text" />
+                }
+                <p>@Model.ToUser?.FirstName @Model.ToUser?.LastName</p>
 
-                        <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-0 ml-2" alt="" />
-                    }
-                    else
-                    {
-                        <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
-                    }
-                </li>
-            }
-            else
-            {
-                <li class="sent ">
-
-                    @if (Model.ToUser.Sex == "Male")
-                    {
-
-                        <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2 ml-0" alt="" />
-                    }
-                    else
-                    {
-                        <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2 ml-0" alt="" />
-                    }
-                    <p class="d-flex align-items-center" style="background-color: lightgray;color: black;">
-                        @item.Body
-                        <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
-                            <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
-                        </a>
-                    </p>
-                </li>
             }
 
-        }
-    </ul>
-</div>
+        </div>
+    </div>
+    <div class="messages">
+        <ul>
+            @foreach (var item in Model.Messages)
+            {
+                @if (item.From == Model.CurrentUser.Id)
+                {
+                    <li class="sent right">
+                        <p class="d-flex align-items-center">
+                            @item.Body
+                            <a  onclick="deleteMessage('@item.MessageID')">
+                                <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                        @if (Model.CurrentUser.Sex == "Male")
+                        {
+
+                            <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-0 ml-2" alt="" />
+                        }
+                        else
+                        {
+                            <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-0 ml-2" alt="" />
+                        }
+                    </li>
+                }
+                else
+                {
+                    <li class="sent ">
+
+                        @if (Model.ToUser.Sex == "Male")
+                        {
+
+                            <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2 ml-0" alt="" />
+                        }
+                        else
+                        {
+                            <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2 ml-0" alt="" />
+                        }
+                        <p class="d-flex align-items-center" style="background-color: lightgray;color: black;">
+                            @item.Body
+                            <a asp-action="DeleteMessage" asp-controller="Chat" asp-route-Id="@item.MessageID">
+                                <i class="fa fa-trash treashIcon ml-2" aria-hidden="true"></i>
+                            </a>
+                        </p>
+                    </li>
+                }
+
+            }
+        </ul>
+    </div>

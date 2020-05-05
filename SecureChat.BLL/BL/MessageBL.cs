@@ -17,13 +17,13 @@ namespace SecureChat.BLL.BL
         public List<SecureChat.DAL.Models.Message> GetMessages(string from, string to)
         {
             
-            var messages = repository.List().ToList();
+            var messagesList = repository.List().ToList();
+            var messages = messagesList.Where(m => m.To == to && m.From == from && m.IsDeleted == false || m.To == from && m.From == to && m.IsDeleted == false).ToList();
             foreach (var item in messages)
             {
                 item.Body = item.Body.DecodingMatrix();
             }
-            var x = messages.Where(m => m.To == to && m.From == from && m.IsDeleted == false || m.To == from && m.From == to && m.IsDeleted == false).ToList();
-            return x;
+            return messages;
         }
         public bool Delete(Message message)
         {

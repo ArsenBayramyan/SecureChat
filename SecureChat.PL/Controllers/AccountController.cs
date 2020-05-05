@@ -24,9 +24,10 @@ namespace SecureChat.PL.Controllers
         public AccountController(UserManager<SecureChat.DAL.User> userManager, MessagesDBContext context,
             SignInManager<SecureChat.DAL.User> signInManager)
         {
-           _uow = new UnitOfWorkRepository(userManager, context, signInManager);
+            _uow = new UnitOfWorkRepository(userManager, context, signInManager);
         }
         [HttpGet]
+        [AllowAnonymous]
         public ViewResult Registration() => View();
 
         [HttpPost]
@@ -34,31 +35,31 @@ namespace SecureChat.PL.Controllers
         public IActionResult Registration(UserCreateModel createUser)
         {
             var userBL = new UserBL(_uow.userRepository);
-            
+
             if (ModelState.IsValid)
             {
                 var user = new SecureChat.BLL.Models.User
                 {
                     UserName = createUser.Email,
-                    FirstName=createUser.FirstName,
+                    FirstName = createUser.FirstName,
                     LastName = createUser.LastName,
                     BirthDate = createUser.BirthDate,
-                    Sex=createUser.Sex,
+                    Sex = createUser.Sex,
                     City = createUser.City,
                     Address = createUser.Address,
                     PasswordHash = createUser.Password,
-                    Email=createUser.Email,
+                    Email = createUser.Email,
                 };
-                
+
                 if (userBL.SaveUser(user))
                 {
-                    return RedirectToAction("Login",new UserLoginModel
-                                                        {
-                                                           Email=user.Email,
-                                                           Password=user.PasswordHash
-                                                        });
+                    return RedirectToAction("Login", new UserLoginModel
+                    {
+                        Email = user.Email,
+                        Password = user.PasswordHash
+                    });
                 }
-                   
+
             }
             return View(createUser);
         }
@@ -80,14 +81,14 @@ namespace SecureChat.PL.Controllers
                     PasswordHash = userLogin.Password,
                 };
                 var FindUser = _uow.userRepository.GetByEmail(user);
-                if (FindUser != null && FindUser.IsDeleted==false)
+                if (FindUser != null && FindUser.IsDeleted == false)
                 {
                     await _uow.signInManager.SignOutAsync();
                     var result =
                           _uow.signInManager.PasswordSignInAsync(FindUser, user.PasswordHash, true, false).Result;
                     if (result.Succeeded)
                     {
-                       return Redirect("/Chat/Index");
+                        return Redirect("/Chat/Index");
                     }
                 }
                 ModelState.AddModelError(nameof(userLogin.Email), "Invalid user or password");
@@ -95,14 +96,14 @@ namespace SecureChat.PL.Controllers
             return RedirectToAction("Login");
         }
         public IActionResult LogOut() => RedirectToAction("Login");
-       
+
         [HttpPost]
         public ActionResult Delete(string Id)
         {
             UserBL userBl = new UserBL(_uow.userRepository);
             userBl.DeleteById(Id);
             return RedirectToAction("Login");
-        }   
+        }
 
         [HttpGet]
         public IActionResult GetUsers()
@@ -121,6 +122,6 @@ namespace SecureChat.PL.Controllers
         {
             return null;
         }
-       
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿@model SecureChat.PL.Models.ChatViewModel;
-
 @{
     ViewBag.Title = "Log In";
     Layout = "_UserLayout";
@@ -16,17 +15,9 @@
 
 <script src="https://use.typekit.net/hoy3lrg.js"></script>
 <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
-<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
 <link href="~/css/chatStyle.css" rel="stylesheet" />
-<script type="text/javascript">
-    function getMessages(string to) {
-        $("#contacts").click(function () {
-            $.ajax({
-                url: '/Chat/Messages',
-                type:"GET"
-            })
-    }
-</script>
 <div id="frame">
     <div id="sidepanel">
         <div id="profile">
@@ -65,26 +56,25 @@
             <ul>
                 @foreach (var user in Model.Users)
                 {
-                    <li class="contact btn btn-block">
-                        <a  asp-action="GetMessagesByUser"
-                                           asp-controller="Chat" asp-route-Id="@user.Id" class="wrap d-block">
+                    <li class="wrap d-block contact btn btn-block" onclick="messages('@user.Id')">
+                        <a class="wrap d-block ">
                             <span class="contact-status online"></span>
-                            @if (user.Sex == "Male" && user.IsDeleted==false)
+                            @if (user.Sex == "Male" && user.IsDeleted == false)
                             {
                                 <div class="d-flex">
                                     <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-3" alt="" />
                                     <div class="meta">
-                                            <p class="name">@user.FirstName @user.LastName</p>
+                                        <p class="name">@user.FirstName @user.LastName</p>
                                     </div>
                                 </div>
                             }
-                            else if(user.IsDeleted==false)
+                            else if (user.IsDeleted == false)
                             {
                                 <div class="d-flex">
                                     <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-3" alt="" />
                                     <div class="meta">
 
-                                            <p class="name">@user.FirstName @user.LastName</p>
+                                        <p class="name">@user.FirstName @user.LastName</p>
                                     </div>
                                 </div>
                             }
@@ -101,29 +91,15 @@
         </div>
     </div>
     <div class="content">
-        <div class="contentHeder">
-            <div class="d-flex justify-content-start">
-                @if (Model.ToUser.FirstName != null)
-                {
-                    if (Model.ToUser.Sex == "Male")
-                    {
-                        <img src="https://st3.depositphotos.com/1007566/13024/v/950/depositphotos_130240748-stock-illustration-young-man-avatar-character.jpg?fbclid=IwAR1sulWDm3KME5pESqHvFM2Ngg-mYLIKbjLns7a1lDnHRP_j5Zk3xb4cjz8" class="mr-2" alt="Alternate Text" />
-                    }
-                    else if (Model.ToUser.Sex == "Female")
-                    {
-                        <img src="https://cs7.pikabu.ru/post_img/big/2018/04/18/8/1524057007156326200.jpg" class="mr-2" alt="Alternate Text" />
-                    }
-                    <p>@Model.ToUser.FirstName @Model.ToUser.LastName</p>
+        
+        <div id="messages">
 
-                }
-
-            </div>
         </div>
-        <form asp-action="SendMessage" asp-controller="Chat" method="post">
+        <form>
             <div class="message-input">
                 <div class="wrap d-flex">
-                    <textarea asp-for="MessageBody" class="form-control" placeholder="Write your message..."></textarea>
-                    <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    <textarea id="textArea" disabled class="form-control" placeholder="Write your message..."></textarea>
+                    <button type="button" onclick="send('@Model.CurrentUser.Id')" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                 </div>
             </div>
         </form>
@@ -132,6 +108,61 @@
 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script>
+    var to;
+    var from;
+   
+    function messages(id) {
+        to = id;
+         $('#textArea').prop('disabled', false);
+        window.$.ajax({
+            url: 'Messages/' + id,
+            success: function (data) {
+                $('#messages').html(data);
+                $('.messages').scrollTop(9999999);
+            },
+            error: function () {
+                console.log('error')
+            }
+        });
+    }
+
+    setInterval(x => {
+        if (to) {
+            messages(to);
+        }
+    }, 10000);
+
+    function send(id) {
+        from = id;
+        var body = $('#textArea').val();
+        window.$.ajax({
+            type: 'POST',
+            url: `SendMessage/?To=${to}&From=${from}&Body=${body}`,
+            success: x => {
+                $('#textArea').val('');
+                messages(to);
+            },
+            error: function () {
+                console.log('error')
+
+            }
+        });
+    }
+
+    function deleteMessage(Id) {
+         window.$.ajax({
+            url: 'DeleteMessage/' + Id,
+            success: function (data) {
+                $('#messages').html(data);
+                messages(to)
+            },
+            error: function () {
+                console.log('error')
+            }
+        });
+    }
+
+
     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
     $("#profile-img").click(function () {
