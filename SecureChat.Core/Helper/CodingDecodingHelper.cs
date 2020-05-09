@@ -8,7 +8,7 @@ namespace SecureChat.Core.Helper
     {
         public static string CodeingCaesar(this string value)
         {
-            if (value==null)
+            if (value == null)
             {
                 return null;
             }
@@ -39,56 +39,102 @@ namespace SecureChat.Core.Helper
             }
             return CodingWithMatrix(new string(outputList.ToArray()));
         }
+        public static string DecodingMatrix(this string value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            var size = Convert.ToInt32(Math.Ceiling(Math.Sqrt(value.Length)));
+            var matrix = new char[size, size];
+            var index = 0;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    matrix[i, j] = value[index];
+                    index++;
+                }
+            }
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = i; j < size; j++)
+                {
+                    var temp = matrix[i, j];
+                    matrix[i, j] = matrix[j, i];
+                    matrix[j, i] = temp;
+                }
+            }
+
+            var output = new List<char>();
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    output.Add(matrix[i, j]);
+                }
+            }
+            output.Reverse();
+            var lastIndex = 0;
+
+            foreach (var item in output)
+            {
+                if (item == ' ')
+                {
+                    lastIndex++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            output.RemoveRange(0, lastIndex);
+            output.Reverse();
+
+            return DecodingCaesar(new string(output.ToArray()));
+        }
         private static string CodingWithMatrix(string value)
         {
-            int MATRIX_ROWS = Convert.ToInt32(Math.Ceiling(Math.Sqrt(value.Length)));
-            string[,] matrix = new string[MATRIX_ROWS, MATRIX_ROWS];
-            int inpCounter = 0;
+            var size = Convert.ToInt32(Math.Ceiling(Math.Sqrt(value.Length)));
+            var matrix = new char[size, size];
+            var index = 0;
 
-            for (int i = 0; i < MATRIX_ROWS; i++)
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < MATRIX_ROWS; j++)
+                for (int j = 0; j < size; j++)
                 {
-
-                    if (inpCounter >= value.Length)
+                    if (index < value.Length)
                     {
-                        matrix[i, j] = "0";
+                        matrix[i, j] = value[index];
+                        index++;
                     }
                     else
                     {
-                        matrix[i, j] = value[inpCounter].ToString();
-                        inpCounter++;
+                        matrix[i, j] = ' ';
                     }
                 }
             }
-            string word = null;
-            for (int i = 0; i < MATRIX_ROWS; i++)
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < MATRIX_ROWS; j++)
+                for (int j = i; j < size; j++)
                 {
-                    word += matrix[i, j];
-                }
-            }
-            int zeroCount = word.Length - value.Length;
-            for (int i = 0; i < MATRIX_ROWS; i++)
-            {
-                for (int j = i; j < MATRIX_ROWS; j++)
-                {
-                    string c = matrix[i, j];
+                    var temp = matrix[i, j];
                     matrix[i, j] = matrix[j, i];
-                    matrix[j, i] = c;
+                    matrix[j, i] = temp;
                 }
             }
-            string _outPut = null;
-            for (int i = 0; i < MATRIX_ROWS; i++)
+
+            var output = new StringBuilder();
+
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < MATRIX_ROWS; j++)
+                for (int j = 0; j < size; j++)
                 {
-                    _outPut += matrix[i, j];
+                    output.Append(matrix[i, j].ToString());
                 }
             }
-            _outPut += zeroCount;
-            return _outPut;
+
+            return output.ToString();
         }
         private static string DecodingCaesar(string output)
         {
@@ -118,54 +164,6 @@ namespace SecureChat.Core.Helper
                 word.Add(originList[index]);
             }
             return new string(word.ToArray());
-        }
-        public static string DecodingMatrix(this string value)
-        {
-            if (value==null)
-            {
-                return null;
-            }
-            var code = value.Substring(0, value.Length - 1);
-            int MATRIX_ROWS = Convert.ToInt32(Math.Ceiling(Math.Sqrt(code.Length)));
-            string[,] matrix = new string[MATRIX_ROWS, MATRIX_ROWS];
-            int inpCounter = 0;
-            for (int i = 0; i < MATRIX_ROWS; i++)
-            {
-                for (int j = 0; j < MATRIX_ROWS; j++)
-                {
-
-                    if (inpCounter >= value.Length)
-                    {
-                        matrix[i, j] = "0";
-                    }
-                    else
-                    {
-                        matrix[i, j] = value[inpCounter].ToString();
-                        inpCounter++;
-                    }
-                }
-            }
-
-            for (int i = 0; i < MATRIX_ROWS; i++)
-            {
-                for (int j = i; j < MATRIX_ROWS; j++)
-                {
-                    string c = matrix[i, j];
-                    matrix[i, j] = matrix[j, i];
-                    matrix[j, i] = c;
-                }
-            }
-            string outcode = null;
-            for (int i = 0; i < MATRIX_ROWS; i++)
-            {
-                for (int j = 0; j < MATRIX_ROWS; j++)
-                {
-                    outcode += matrix[i, j];
-                }
-            }
-            int x = (int)(value[value.Length - 1] - '0');
-            var decode = outcode.Substring(0, outcode.Length - x);
-            return DecodingCaesar(decode);
         }
     }
 }

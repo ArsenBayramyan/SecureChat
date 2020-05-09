@@ -104,24 +104,5 @@ namespace SecureChat.PL.Controllers
             userBl.DeleteById(Id);
             return RedirectToAction("Login");
         }
-
-        [HttpGet]
-        public IActionResult GetUsers()
-        {
-            return null;
-        }
-
-        [HttpGet]
-        public IActionResult GetUser(string s)
-        {
-            return null;
-        }
-
-        [HttpPost]
-        public IActionResult Update()
-        {
-            return null;
-        }
-
     }
 }
