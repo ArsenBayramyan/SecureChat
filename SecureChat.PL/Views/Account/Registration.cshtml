@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <div class="input-group ">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="FirstName" onblur="checkField('FirstName','firstNameEmpty','firstNameIncorrect')" value="" id="FirstName" class="form-control" placeholder="First Name">
+                        <input asp-for="FirstName" onblur="checkField('FirstName','firstNameEmpty','firstNameIncorrect')" value="" id="FirstName" class="form-control" placeholder="First Name*">
                     </div>
                     <span class="d-none text-danger" id="firstNameEmpty">Please enter a name</span>
                     <span class="d-none text-danger" id="firstNameIncorrect">Inccorrect name</span>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="LastName" onblur="checkField('LastName','lastNameEmpty','lastNameIncorrect')" class="form-control" placeholder="Last Name">
+                        <input asp-for="LastName" onblur="checkField('LastName','lastNameEmpty','lastNameIncorrect')" class="form-control" placeholder="Last Name*">
                     </div>
                     <span class="d-none text-danger" id="lastNameEmpty">Please enter a surname</span>
                     <span class="d-none text-danger" id="lastNameIncorrect">Inccorrect surname</span>
@@ -30,12 +30,12 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="BirthDate" max="2020-04-24" class="form-control" placeholder="Birthday">
+                        <input asp-for="BirthDate" max="2020-04-24" class="form-control">
                     </div>
                 </div>
                 <div class="form-group mb-0">
                     <div class="input-group radioGroup">
-                        <span class="text-light mr-2">Select gender</span>
+                        <span class="text-light mr-2">Select gender*</span>
                         <label>
                             <input asp-for="Sex" value="Male" id="male"class="with-gap" name="Sex" type="radio" />
                             <span class="text-light">Male</span>
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="City" onblur="checkField('City','cityEmpty','cityIncorrect')" class="form-control" placeholder="City">
+                        <input asp-for="City" onblur="checkField('City','cityEmpty','cityIncorrect')" class="form-control" placeholder="City*">
                     </div>
                     <span class="d-none text-danger" id="cityEmpty">Please enter a city</span>
                     <span class="d-none text-danger" id="cityIncorrect">Inccorrect city</span>
@@ -63,7 +63,7 @@
                 <div class="form-group" >
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"> </i></span>
-                        <input asp-for="Email" onblur="validateEmail()" class="form-control" placeholder="Email Address">
+                        <input asp-for="Email" onblur="validateEmail()" class="form-control" placeholder="Email Address*">
                     </div>
                     <span class="d-none text-danger" id="emailEmpty">Please enter a email</span>
                     <span class="d-none text-danger" id="emailIncorrect">Inccorrect email</span>
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key"> </i></span>
-                        <input asp-for="Password" onblur="validatePassword()" class="form-control" placeholder="Password">
+                        <input asp-for="Password" onblur="validatePassword()" class="form-control" placeholder="Password*">
                     </div>
                     <span class="d-none text-danger" id="passwordEmpty">Please enter a password</span>
                     <span class="d-none text-danger" id="passwordIncorrect">Inccorrect password</span>
@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-key"> </i></span>
-                        <input asp-for="ConfirmPassword" onblur="validateConfirmPassword()" class="form-control" placeholder="Confirm Password">
+                        <input asp-for="ConfirmPassword" onblur="validateConfirmPassword()" class="form-control" placeholder="Confirm Password*">
                     </div>
                     <span class="d-none text-danger" id="confirmPasswordEmpty">Please enter a password</span>
                     <span class="d-none text-danger" id="confirmPasswordIncorrect">Confirm password and password do not match</span>
