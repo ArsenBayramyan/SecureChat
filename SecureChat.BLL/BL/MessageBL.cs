@@ -21,7 +21,7 @@ namespace SecureChat.BLL.BL
             var messages = messagesList.Where(m => m.To == to && m.From == from && m.IsDeleted == false || m.To == from && m.From == to && m.IsDeleted == false).ToList();
             foreach (var item in messages)
             {
-                item.Body = item.Body.DecodingMatrix();
+                item.Body = item.Body.DecodingWithMatrix();
             }
             return messages;
         }
