@@ -39,7 +39,7 @@ namespace SecureChat.Core.Helper
             }
             return CodingWithMatrix(new string(outputList.ToArray()));
         }
-        public static string DecodingMatrix(this string value)
+        public static string DecodingWithMatrix(this string value)
         {
             if (value == null)
             {
