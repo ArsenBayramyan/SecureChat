@@ -71,15 +71,16 @@ function validateEmail() {
 }
 
 function checkAllFilds() {
-    //let arr = [];
-    //for (obj in validObj) {
-    //    arr.push(validObj[obj])
-    //}
-    //if (arr.indexOf(false) == -1) {
-    //    document.getElementById("signUpBtn").disabled = false;
-    //} else {
-    //    document.getElementById("signUpBtn").disabled = true;
-    //}
+    let arr = [];
+    for (obj in validObj) {
+        arr.push(validObj[obj])
+    }
+    console.log(arr.indexOf(false))
+    if (arr.indexOf(false) == -1) {
+        document.getElementById("signUpBtn").disabled = false;
+    } else {
+        document.getElementById("signUpBtn").disabled = true;
+    }
 }
 
 function validatePassword() {

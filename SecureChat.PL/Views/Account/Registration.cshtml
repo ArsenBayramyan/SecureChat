@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <div class="input-group ">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="FirstName" onblur="checkField('FirstName','firstNameEmpty','firstNameIncorrect')" value="" id="FirstName" class="form-control" placeholder="First Name*">
+                        <input asp-for="FirstName" value=" " onblur="checkField('FirstName','firstNameEmpty','firstNameIncorrect')" value="" id="FirstName" class="form-control" placeholder="First Name*">
                     </div>
                     <span class="d-none text-danger" id="firstNameEmpty">Please enter a name</span>
                     <span class="d-none text-danger" id="firstNameIncorrect">Inccorrect name</span>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="LastName" onblur="checkField('LastName','lastNameEmpty','lastNameIncorrect')" class="form-control" placeholder="Last Name*">
+                        <input asp-for="LastName" value="" onblur="checkField('LastName','lastNameEmpty','lastNameIncorrect')" class="form-control" placeholder="Last Name*">
                     </div>
                     <span class="d-none text-danger" id="lastNameEmpty">Please enter a surname</span>
                     <span class="d-none text-danger" id="lastNameIncorrect">Inccorrect surname</span>
@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="BirthDate" max="2020-04-24" class="form-control">
+                        <input asp-for="BirthDate" value="" max="2020-04-24" class="form-control">
                     </div>
                 </div>
                 <div class="form-group mb-0">
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="City" onblur="checkField('City','cityEmpty','cityIncorrect')" class="form-control" placeholder="City*">
+                        <input asp-for="City" value="" onblur="checkField('City','cityEmpty','cityIncorrect')" class="form-control" placeholder="City*">
                     </div>
                     <span class="d-none text-danger" id="cityEmpty">Please enter a city</span>
                     <span class="d-none text-danger" id="cityIncorrect">Inccorrect city</span>
@@ -57,13 +57,13 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"> </i></span>
-                        <input asp-for="Address" class="form-control" placeholder="Address">
+                        <input asp-for="Address" value="" class="form-control" placeholder="Address">
                     </div>
                 </div>
                 <div class="form-group" >
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"> </i></span>
-                        <input asp-for="Email" onblur="validateEmail()" class="form-control" placeholder="Email Address*">
+                        <input asp-for="Email" value="" onblur="validateEmail()" class="form-control" placeholder="Email Address*">
                     </div>
                     <span class="d-none text-danger" id="emailEmpty">Please enter a email</span>
                     <span class="d-none text-danger" id="emailIncorrect">Inccorrect email</span>
@@ -84,7 +84,7 @@
                     <span class="d-none text-danger" id="confirmPasswordEmpty">Please enter a password</span>
                     <span class="d-none text-danger" id="confirmPasswordIncorrect">Confirm password and password do not match</span>
                 </div>
-                <button @*id="signUpBtn"*@ type="submit" class="btn btn-success btn-block">Sign Up</button>
+                <button id="signUpBtn" type="submit" class="btn btn-success btn-block" disabled>Sign Up</button>
                 <div class="d-flex justify-content-center links backToLogin mt-2">
                     If you have account?<a href="/Account/Login">Sign In</a>
                 </div>
