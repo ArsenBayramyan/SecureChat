@@ -56,7 +56,6 @@ namespace SecureChat.PL.Controllers
             
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
