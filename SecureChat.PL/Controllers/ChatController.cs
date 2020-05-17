@@ -3,17 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SecureChat.BLL.BL;
-using SecureChat.BLL.Models;
 using SecureChat.BLL.Repository;
-using SecureChat.Core;
 using SecureChat.Core.Interfaces;
 using SecureChat.DAL.Contexts;
 using SecureChat.PL.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Message = SecureChat.PL.Models.Message;
 using User = SecureChat.PL.Models.User;
 

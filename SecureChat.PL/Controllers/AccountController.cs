@@ -1,19 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Options;
 using SecureChat.BLL.BL;
 using SecureChat.BLL.Repository;
-using SecureChat.Core;
-using SecureChat.Core.Interfaces;
-using SecureChat.DAL;
 using SecureChat.DAL.Contexts;
 using SecureChat.PL.Models;
-using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using User = SecureChat.DAL.User;
 
 namespace SecureChat.PL.Controllers
 {

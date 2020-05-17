@@ -1,11 +1,9 @@
 ﻿using SecureChat.BLL.Models;
 using SecureChat.BLL.Repository;
 using SecureChat.Core.Helper;
-using SecureChat.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SecureChat.BLL.BL
 {
