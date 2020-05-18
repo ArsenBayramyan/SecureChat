@@ -11,6 +11,8 @@
     text-rendering: optimizeLegibility;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
     -webkit-font-smoothing: antialiased;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .right{
     float:right !important;
@@ -646,8 +648,10 @@ textarea {
     line-height: 60px;
     background: #f5f5f5;
 }
-#messages{
+#messages {
     height: 92%;
+    background-image: url('https://live.staticflickr.com/1700/23412278894_25cda29b4d_b.jpg');
+    background-size: cover;
 }
 
     #frame .content .contact-profile img {

@@ -19,7 +19,7 @@ namespace SecureChat.BLL.BL
             var messages = messagesList.Where(m => m.To == to && m.From == from && m.IsDeleted == false || m.To == from && m.From == to && m.IsDeleted == false).ToList();
             foreach (var item in messages)
             {
-                item.Body = item.Body.DecodingWithMatrix();
+                item.Body = item.Body/*.DecodingWithMatrix();*/;
             }
             return messages;
         }
@@ -48,7 +48,7 @@ namespace SecureChat.BLL.BL
                 MessageID = message.MessageID,
                 From = message.From,
                 To = message.To,
-                Body = message.Body.CodeingCaesar(),
+                Body = message.Body/*.CodeingCaesar(),*/,
                 SendDate = DateTime.Now,
                 Status = message.Status,
                 IsDeleted = false
